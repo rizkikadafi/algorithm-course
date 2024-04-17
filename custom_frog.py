@@ -185,15 +185,16 @@ def solve(frogs):
     return counter
 
 
-state = [int(x) for x in input("Masukkan urutan kodok: ").split()]
+state = [int(x) for x in input("Masukkan urutan kodok: ").split(" ")]
+# state = [1, 4, 3, 2]
 print(solve(state))
 
 
 # print(solve([2,3,4,5,6,1]))
 
-
-# n = int(input())
-# print(solve(test_cases[n]))
+# import itertools
+# test_list = list(reversed([i for i in range(1,5)]))
+# test_cases = [list(case) for case in itertools.permutations(test_list, len(test_list))]
 
 # avg = 0
 # for i in range(len(test_cases)):

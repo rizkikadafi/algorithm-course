@@ -46,7 +46,7 @@ if __name__ == "__main__":
     while len(target_pin) != 6 or not target_pin.isdecimal():
         print("panjang digit harus 6 dan harus angka")
         target_pin = input("masukkan pin: ")
-    num_threads = 6
+    num_threads = 4
 
     start = time.time()
 

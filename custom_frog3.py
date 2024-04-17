@@ -1,5 +1,6 @@
 from heapq import heappush, heappop
 from enum import IntEnum
+import heapq
 class Move(IntEnum):
     NONE = 0,
     RIGHT = 1,
@@ -52,12 +53,11 @@ def get_focus_elm(state, priority_elm, possibilities_mov):
             case Move.LEFT2:
                 heappush(result, (-priority_elm[state[zero_idx - 2]], state[zero_idx - 2]))
 
-    res = heappop(result)
-    if len(result) > 1:
-        res2 = heappop(result)
-        if res2[0] == res[0]:
-            return res2[1]
-    return res[1]
+    res = heapq.nsmallest(2, result)
+    if len(res) > 1 and res[0][0] == res[1][0]:
+        return res[1][1]
+    else:
+        return heappop(result)[1]
 
 def get_mov(state, goals, possibilities_mov, focus_elm):
     if len(possibilities_mov) == 1:
@@ -75,8 +75,7 @@ def get_mov(state, goals, possibilities_mov, focus_elm):
                     heappush(result, (abs(zero_idx - goals_focus_elm_idx), Move.RIGHT))
                 else:
                     if zero_idx + 1 == focus_elm_idx + 1 or zero_idx + 1 == focus_elm_idx + 2 or zero_idx + 1 == focus_elm_idx - 1 or zero_idx + 1 == focus_elm_idx - 2:
-                        if zero_idx + 2 < len(state) and state[zero_idx + 2] < state[zero_idx + 1]:
-                            heappush(result, (abs(zero_idx + 1 - goals_focus_elm_idx), Move.RIGHT))
+                        heappush(result, (abs(zero_idx + 1 - goals_focus_elm_idx), Move.RIGHT))
                     else:
                         heappush(result, (abs(focus_elm_idx - goals_focus_elm_idx), Move.RIGHT))
             case Move.RIGHT2:
@@ -84,8 +83,7 @@ def get_mov(state, goals, possibilities_mov, focus_elm):
                     heappush(result, (abs(zero_idx - goals_focus_elm_idx), Move.RIGHT2))
                 else:
                     if zero_idx + 2 == focus_elm_idx + 1 or zero_idx + 2 == focus_elm_idx + 2 or zero_idx + 2 == focus_elm_idx - 1 or zero_idx + 2 == focus_elm_idx - 2:
-                        if state[zero_idx + 2] > state[zero_idx + 1]:
-                            heappush(result, (abs(zero_idx + 2 - goals_focus_elm_idx), Move.RIGHT2))
+                        heappush(result, (abs(zero_idx + 2 - goals_focus_elm_idx), Move.RIGHT2))
                     else:
                         heappush(result, (abs(focus_elm_idx - goals_focus_elm_idx), Move.RIGHT2))
             case Move.LEFT:
@@ -105,12 +103,11 @@ def get_mov(state, goals, possibilities_mov, focus_elm):
                     else:
                         heappush(result, (abs(focus_elm_idx - goals_focus_elm_idx), Move.LEFT2))
 
-    res = heappop(result)
-    if len(result) > 1:
-        res2 = heappop(result)
-        if res2[0] == res[0]:
-            return res2[1]
-    return res[1]
+    res = heapq.nsmallest(2, result)
+    if len(res) > 1 and res[0][0] == res[1][0]:
+        return res[1][1]
+    else:
+        return heappop(result)[1]
 
 def solve(frogs):
     frogs = [0] + frogs
@@ -145,8 +142,8 @@ def solve(frogs):
     return counter
 
 
-# frogs = [int(x) for x in input("Masukkan urutan kodok: ").split(", ")]
-frogs = [1,3,2]
+frogs = [int(x) for x in input("Masukkan urutan kodok: ").split(" ")]
+# frogs = [6, 5, 4, 2, 3, 1]
 print(solve(frogs))
 
 # import itertools

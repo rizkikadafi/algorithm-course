@@ -4,7 +4,7 @@ def brute_force(target_hash):
     for pin in itertools.product(range(10), repeat=6):
         pin_str = ''.join(map(str, pin))
         hashed_pin = hashlib.sha256(pin_str.encode()).hexdigest()
-        print(f"test: {hashed_pin}")
+        # print(f"test: {hashed_pin}")
         if hashed_pin == target_hash:
             print("found:")
             return ''.join(map(str,pin))
